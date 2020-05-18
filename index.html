@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div class="row">
+          <form class="col form-search" @submit.prevent="init(userName)">
+            <div class="row">
+              <div class="input-field s6">
+                <i class="material-icons prefix">account_circle</i>
+                <input id="icon_prefix" type="text" class="validate " v-model="userName">
+                <label for="icon_prefix">Имя пользователя</label>
+              </div>
+              <error ref='error'></error>
+            </div>
+            <div class="btn-form-block">
+              <button class="btn waves-effect waves-light " type="submit" name="action">Найти &nbsp; &#128270;</button>
+            </div>
+          </form>
+        </div>
+          <br> 
+        <div class="start-text" v-if="noUser()">Введите данные пользователя в окно поиска</div>
+        <div v-else>
+          <div class="user-info-block">
+            <img :src="dataName.avatar_url" class="img">
+            <p class="user-info">{{dataName.name}}  <br>Репозитории: {{ dataName.public_repos }}</p>
+          </div>
+        <div class="repo-block">
+          <div class="btn-filtered-block">
+            <a class="btn-filter" @click.prevent='filterName()'>Name&nbsp;&darr;</a>
+            <a class="btn-filter" @click.prevent='filterStar()'>Stars&nbsp;&darr;</a>
+          </div>
+            <ul class="repo-list">
+              <li v-for="repo of filtered" class="list-item">
+                <a :href="repo.html_url" target="_blank" class="link-repo">{{repo.name}}</a>
+                <div class="star-icon">{{repo.stargazers_count}} &nbsp; &#9734;
+                </div>
+              </li>
+            </ul>
+        </div>
+        <pagination 
+        :size='sizePage'
+        :total='dataName.public_repos'
+        :current='currentPage'
+        @next-page='nextPage'
+        @prev-page='prevPage'
+        ></pagination>
+        </div>
+     
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://unpkg.com/vuejs-paginate@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="js/pagination.js"></script>
+<script src="js/error.js"></script>
+<script src="js/vue.js"></script>
+</body>
+</html>
