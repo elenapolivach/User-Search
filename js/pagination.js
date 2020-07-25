@@ -15,7 +15,11 @@ Vue.component ('pagination', {
     
     computed: {
         maxPages() {
-            return parseInt(this.total/this.size) + 1;
+            if (this.total % this.size != 0 ) {
+                return parseInt(this.total/this.size) + 1;
+            } else {
+                return parseInt(this.total/this.size);
+            }
         },
         
     },
